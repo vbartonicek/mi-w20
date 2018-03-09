@@ -1,0 +1,23 @@
+<!-- Form.html  -->
+<!DOCTYPE html>
+<html>
+<head>
+    <base target="_top">
+</head>
+
+<body>
+<form onsubmit="return(false)">
+    <h4>Search RecipePuppy</h4>
+
+    Ingredients: <input type="text" name="ingredients" placeholder="e.g. onions,garlic" />
+
+    <br />
+
+    Meal name: <input type="text" name="meal" placeholder="e.g. pizza" />
+
+    <br />
+    <br />
+    <input type="submit" value="SUBMIT" onclick="google.script.run.processFormData(this.parentNode);" />
+</form>
+</body>
+</html>
