@@ -2,7 +2,7 @@ const http = require('http');
 const crypto = require('crypto');
 const port = 8081;
 const etagType = 'weak';  // Weak ETag
-// const etag = 'strong';  // Strong ETag
+// const etagType = 'strong';  // Strong ETag
 
 // DB Simulation
 var storage = {
@@ -34,20 +34,16 @@ var storage = {
     },
 
     getWeakEtag: function () {
-        if (!this.weakEtag) {
-            var content = "";
-            for (var i = 0; i < this.customers.length; i++)
-                content += this.customers[i].id + this.customers[i].name;
+        var content = "";
+        for (var i = 0; i < this.customers.length; i++)
+            content += this.customers[i].id + this.customers[i].name;
 
-            this.weakEtag = "W/\"" + crypto.createHash('md5').update(content).digest('hex') + "\"";
-        }
+        this.weakEtag = "W/\"" + crypto.createHash('md5').update(content).digest('hex') + "\"";
         return this.weakEtag;
     },
 
     getStrongEtag: function () {
-        if (!this.strongEtag) {
-            this.strongEtag = "\"" + JSON.stringify(crypto.createHash('md5').update(this.customers).digest('hex')) + "\"";
-        }
+        this.strongEtag = "\"" + crypto.createHash('md5').update(JSON.stringify(this.customers)).digest('hex') + "\"";
         return this.strongEtag;
     },
 
@@ -65,7 +61,19 @@ function response(res, code, message) {
 };
 
 http.createServer(function (req, res) {
-    if ((id = req.url.match("^/customers/"))) {
+    if ((id = req.url.match("^/customers/([a-z0-9]+)$"))) {
+        // Delete single customer
+        if (req.method === "DELETE") {
+            if (storage.deleteCustomer(id[1])) {
+                response(res, 204, 'Customer was deleted.')
+            }
+            else {
+                response(res, 404, 'Customer does not exist.')
+            }
+        }
+        else response(res, 400, 'Bad request');
+    }
+    else if ((id = req.url.match("^/customers/"))) {
         // Return all customers
         if (req.method === "GET") {
             res.writeHead(200, {'Content-Type': 'application/json'});
