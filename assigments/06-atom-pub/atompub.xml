@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <title>Trip to Prague</title>
+    <link href="http://example.org/"/>
+    <updated>2003-12-13T18:30:02Z</updated>
+    <author>
+        <name>Peter Novak</name>
+    </author>
+    <id>urn:uuid:60a76c80-d399-11d9-b93C-0003939e0af6</id>
+
+    <entry>
+        <title>Prague Castle</title>
+        <link href="http://store.it/users/432/albums/635/photos/prague-castle.jpg"/>
+        <id>urn:uuid:1225c695-cfb8-4ebb-aaaa-80da344efa6a</id>
+        <updated>2003-12-13T18:30:02Z</updated>
+        <content type="html">
+            <div>
+                <p>Rating: 5 stars</p>
+            </div>
+        </content>
+    </entry>
+    <entry>
+        <!-- ... -->
+    </entry>
+</feed>a
